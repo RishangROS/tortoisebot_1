@@ -129,7 +129,7 @@ def generate_launch_description():
     joint_state_publisher_node,
     ydlidar_launch_cmd,
     differential_drive_node,
-    gazebo_launch_cmd,
+    # gazebo_launch_cmd,
     navigation_launch_cmd, 
     cartographer_launch_cmd,  
     camera_node

@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import rclpy
 from rclpy.node import Node
 from sensor_msgs.msg import Imu
@@ -48,7 +49,8 @@ class ImuPublisher(Node):
                 )
                 msg.orientation_covariance = [-1.0] * 9  # Replace with known covariance if available
             except (TypeError, ValueError):
-                self.get_logger().warn("Quaternion data type mismatch")
+                pass 
+                # self.get_logger().warn("Quaternion data type mismatch")
         else:
             self.get_logger().warn("Failed to read quaternion data")
 
@@ -63,7 +65,8 @@ class ImuPublisher(Node):
                 )
                 msg.angular_velocity_covariance = [-1.0] * 9  # Replace with known covariance if available
             except (TypeError, ValueError):
-                self.get_logger().warn("Gyroscope data type mismatch")
+                pass
+                # self.get_logger().warn("Gyroscope data type mismatch")
         else:
             self.get_logger().warn("Failed to read gyroscope data")
 
@@ -78,7 +81,8 @@ class ImuPublisher(Node):
                 )
                 msg.linear_acceleration_covariance = [-1.0] * 9  # Replace with known covariance if available
             except (TypeError, ValueError):
-                self.get_logger().warn("Linear acceleration data type mismatch")
+                pass
+                # self.get_logger().warn("Linear acceleration data type mismatch")
         else:
             self.get_logger().warn("Failed to read linear acceleration data")
 
