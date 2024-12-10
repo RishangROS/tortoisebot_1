@@ -1,3 +1,4 @@
+from ament_index_python import get_package_share_directory
 import launch
 import os
 from launch.substitutions import Command, LaunchConfiguration
@@ -5,9 +6,8 @@ import launch_ros
 from launch_ros.descriptions import ParameterValue
 
 def generate_launch_description():
-    pkg_share = launch_ros.substitutions.FindPackageShare(package='tortoisebot_description').find('tortoisebot_description')
     use_sim_time = LaunchConfiguration('use_sim_time')
-    default_model_path = os.path.join(pkg_share, 'models/urdf/tortoisebot.xacro')
+    default_model_path = os.path.join(get_package_share_directory('tortoisebot_description'), 'models/urdf/tortoisebot_simple.xacro')
     robot_state_publisher_node = launch_ros.actions.Node(
         package='robot_state_publisher',
         executable='robot_state_publisher',
