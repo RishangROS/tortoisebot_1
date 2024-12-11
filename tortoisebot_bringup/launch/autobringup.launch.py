@@ -15,8 +15,6 @@ def generate_launch_description():
   navigation_dir = os.path.join(get_package_share_directory('tortoisebot_navigation'), 'launch')
   rviz_launch_dir=os.path.join(get_package_share_directory('tortoisebot_description'), 'launch')
   gazebo_launch_dir=os.path.join(get_package_share_directory('tortoisebot_gazebo'), 'launch')
-  ydlidar_launch_dir=os.path.join(get_package_share_directory('ydlidar_ros2_driver'), 'launch')
-  camera_launch_dir=os.path.join(get_package_share_directory('v4l2_camera'), 'launch')
   cartographer_launch_dir=os.path.join(get_package_share_directory('tortoisebot_slam'), 'launch')
   prefix_address = get_package_share_directory('tortoisebot_navigation') 
   default_model_path = os.path.join(pkg_share, 'models/urdf/tortoisebot_simple.xacro')
@@ -65,11 +63,6 @@ def generate_launch_description():
                           'exploration': exploration,
                           'use_sim_time': use_sim_time}.items())  
 
-  ydlidar_launch_cmd=IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            os.path.join(ydlidar_launch_dir, 'ydlidar_launch.py')),
-            condition=IfCondition(PythonExpression(['not ', use_sim_time])),
-            launch_arguments={'use_sim_time':use_sim_time}.items())
   
   differential_drive_node = Node(
         package='tortoisebot_firmware',
@@ -77,12 +70,7 @@ def generate_launch_description():
         executable='differential.py',
         name ='differential_drive_publisher',
     )
-  camera_drive_node = Node(
-        package='v4l2_camera',
-        condition=IfCondition(PythonExpression(['not ', use_sim_time])),
-        executable='v4l2_camera_node',
-        name ='camera_publisher',
-    )
+
   camera_node = Node(
       package='camera_ros',
       condition=IfCondition(PythonExpression(['not ', use_sim_time])),
@@ -138,9 +126,7 @@ def generate_launch_description():
     state_publisher_launch_cmd,
     robot_state_publisher_node,
     joint_state_publisher_node,
-    ydlidar_launch_cmd,
     differential_drive_node,
-    camera_drive_node,
     gazebo_launch_cmd,
     navigation_launch_cmd, 
     cartographer_launch_cmd
